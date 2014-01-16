@@ -2,31 +2,42 @@
   <head>
     <style>
       body {
-        font-family: "Helvetica Neue", helvetica, arial;
-        padding: 15px;
+        font-family: "Helvetica Neue", arial, sans-serif;
       }
-
-      ul {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-      }
-
-      ul li {
-        line-height: 1.4;
+      label{
+        font-size: 1em;
+        zoom: 1.5;
+        padding: 1em;
+        display: block;
       }
     </style>
-
-    <script>
-      var host = location.origin.replace(/^http/, 'ws')
-      var ws = new WebSocket(host);
-      ws.onmessage = function (event) {
-        document.querySelector('#pings').innerText = event.data;
-      };
-    </script>
   </head>
   <body>
+
+    <div id="viewArea">
+      <canvas id="viewCanvas" width="640" height="480" />
+    </div>
+
+
+    <button id="capture">Capture!</button>
+    <div id="captureArea" style="display:none">
+      <div id="captureWindow"></div>
+      <label>
+        <input type="checkbox" id="calibrate" checked="true"/>
+        Calibrate
+      </label>
+    </div>
+
+
+
+
+
+    <div id="currently"></div>
+
     <h1>Pings!!</h1>
     <ul id='pings'></ul>
+
+    <script type="text/javascript" src="js/bauble.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
   </body>
 </html>

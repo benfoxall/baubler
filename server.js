@@ -11,11 +11,15 @@ server.listen(port);
 
 console.log('http server listening on %d', port);
 
+
 var wss = new WebSocketServer({server: server});
 console.log('websocket server created');
 wss.on('connection', function(ws) {
     var id = setInterval(function() {
-        ws.send(JSON.stringify(new Date()), function() {  });
+        // ws.send(JSON.stringify(new Date()), function() {  });
+
+        var msg = [0,0,0,0].map(function(){return Math.floor(Math.random()*500)});
+        ws.send(msg.join(','));
     }, 10);
 
     console.log('websocket connection open');
