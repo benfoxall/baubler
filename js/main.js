@@ -13,6 +13,7 @@ ws.onmessage = function (event) {
   var y2 = parseInt(xyxy[3],10);
 
   with(viewctx){
+    strokeStyle = '#ce4072';
     fillStyle = 'rgba(255,255,255,0.03)';
     fillRect(0,0,viewCanvas.width,viewCanvas.height);
     beginPath();
@@ -21,9 +22,6 @@ ws.onmessage = function (event) {
     stroke();    
   }
 };
-
-
-
 
 
 
@@ -53,12 +51,14 @@ capture.onclick = function(){
 
       // strokeRect(x-3,y-3, 6,6)
 
-      if(prior_x && prior_y){
+      if(x && y && prior_x && prior_y){
         beginPath();
         moveTo(prior_x, prior_y);
         lineTo(x,y);
         stroke();
       }
+
+      ws.send([x,y,prior_x,prior_y].join(','));
                   
     }
     prior_x = x, prior_y = y;
@@ -73,7 +73,7 @@ capture.onclick = function(){
 
 
   // show correct buttons
-  this.style.display = 'none';
+  viewArea.style.display = this.style.display = 'none';
   captureArea.style.display = 'block';
 
   calibrate.onchange = function(){
