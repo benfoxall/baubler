@@ -31,7 +31,7 @@
 
   }
 
-  Bauble.prototype.getUserMedia = function(){
+  Bauble.prototype.getUserMedia = function(ucallback){
     var self = this;
 
     getMedia.call(navigator,
@@ -43,6 +43,10 @@
           self.video.src = window.URL.createObjectURL(localMediaStream);
 
           self._waitForVideo();
+
+          if(ucallback){
+            ucallback();
+          }
        },
        // errorCallback
        function(err) { console.log("The following error occured: " + err); }

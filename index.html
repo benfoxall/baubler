@@ -43,12 +43,14 @@
         margin:1em 0;
       }
 
-      /* capture button */
-/*      #capture{
-        float:right;
-        font-size:.5em;
+      #instructions{
+        width: 640px;
+        margin: auto;
+        margin: 1em auto;
+        font-size: 1.5em;
+        box-shadow: 0 0px 15px 0px #A29F9F; 
       }
-*/
+
       /* calibrate label */
       label{
         font-size: 1em;
@@ -82,8 +84,19 @@
         </p>
       </div>
       <div id="captureArea" style="display:none">
-        <div id="captureWindow"></div>
-        <label>
+        <div id="instructions">
+          <p>
+            Calibrate an object by holding in the green square (the selected pixels should go black).  When you are happy - click the 'calibrate' checkbox.
+          </p>
+          <p>
+            You should now be able to draw things!
+          </p>
+          <p>
+            To submit a line, start in the bottom left box, do some art, then end in the bottom right
+          </p>
+        </div>
+        <div id="captureWindow" style="display:none"></div>
+        <label style="display:none" id="calibrate_label">
           <input type="checkbox" id="calibrate" checked="true"/>
           Calibrate
         </label>

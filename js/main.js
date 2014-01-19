@@ -82,7 +82,10 @@ capture.onclick = function(){
   var drawstate = 'none', button_size = 50, points = [];
 
   window.b = new Bauble({worker:'js/bauble-worker.js'})
-  b.getUserMedia()
+  b.getUserMedia(function(){
+    instructions.style.display = 'none';
+    calibrate_label.style.display = captureWindow.style.display = 'block';
+  })
   .attachTo('#captureWindow')
   .on('point', function(x,y){
 
@@ -92,7 +95,8 @@ capture.onclick = function(){
     // the persistant canvas context
     with(b.pctx){
 
-      strokeStyle = '#ce4072';//#08f'
+      // strokeStyle = '#ce4072';//#08f'
+      strokeStyle = drawstate == 'started' ? '#ce4072' : '#000'
       lineWidth = 2;
 
       // strokeRect(x-3,y-3, 6,6)
