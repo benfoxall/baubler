@@ -92,7 +92,7 @@ app.get('/recent', function(req, res){
   Drawing
     .find({created_at:{'$ne': null }})
     .limit(10)
-    .sort('created_at') //maybe -created_at
+    .sort('-created_at')
     .select('data created_at')
     .exec(function(err, data){
 
