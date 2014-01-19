@@ -57,8 +57,9 @@ capture.onclick = function(){
         lineTo(x,y);
         stroke();
       }
-
-      ws.send([x,y,prior_x,prior_y].join(','));
+      
+      var send_data = [x,y,prior_x,prior_y].map(function(d){return parseInt(d)}).join(',')
+      ws.send(send_data);
                   
     }
     prior_x = x, prior_y = y;
