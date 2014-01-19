@@ -14,6 +14,9 @@ foreman start
 ``` bash
 heroku create
 heroku labs:enable websockets
+heroku addons:add redistogo
+heroku addons:add mongolab
+
 git push heroku master
 heroku open
 ```

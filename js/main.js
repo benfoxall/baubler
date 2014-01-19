@@ -128,3 +128,78 @@ capture.onclick = function(){
   }
 
 }
+
+
+// draw the lines from the server
+
+var data, 
+width=900,
+height=100,
+segment_width = 100,
+segment_height = 100,
+n=2;
+
+d3.json("/recent", function(error, json) {
+  if (error) return console.warn(error);
+  data = json;
+
+  // pull out the drawings
+  data = json.map(function(item){
+    return item.data;
+  })
+
+  viz();
+});
+
+// formats the list of points to a [x1,y1] => [[x1,y1]]
+// and scales to the width of 100 (and start 0?)
+function process(points){
+  var xs = points.filter(function(_,i){return i%2 == 0});
+  var ys = points.filter(function(_,i){return i%2 == 1});
+
+  var x = d3.scale.linear()
+          .domain([d3.min(xs), d3.max(xs)])
+          .range([0,segment_width]);
+
+
+  xs = xs.map(x);
+  ys = ys.map(x);
+  var offy = segment_height - d3.max(ys);
+  ys = ys.map(function(d){return d+offy})
+
+  return d3.zip(xs, ys);
+
+}
+
+function pairs(array){
+  var paired = [];
+  for(var i = 0; i < array.length; i+=2){
+    paired.push([array[i],array[i+1]])
+  }
+  return paired;
+}
+
+
+function viz(){
+  var svg = 
+    d3.select('#lines').append('svg')
+      .attr('width', width)
+      .attr('height', height);
+
+  var line = d3.svg.line()
+    .x(function(d) { return d[0]; })
+    .y(function(d) { return d[1]; })
+    .interpolate('basis');
+
+  var n = data.length-1;
+  svg
+    .selectAll('path')
+    .data(data.map(process))
+    .enter()
+    .append("path")
+    .attr("class", "line")
+    .attr("d", line)
+    .attr("transform", function(d,i){return "translate(" + segment_width*(n-i) + ",0)"});
+}
+
+
