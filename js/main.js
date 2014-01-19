@@ -3,23 +3,41 @@ var viewctx = viewCanvas.getContext('2d');
 var host = location.origin.replace(/^http/, 'ws')
 var ws = new WebSocket(host);
 ws.onmessage = function (event) {
-  document.querySelector('#pings').innerText = event.data;
+  var d = event.data;
+  var command = d.charAt(0);
+  var rest = d.substr(1);
 
-  var xyxy = event.data.split(',');
+  if(command == 'L'){
+   var xyxy = rest.split(',');
 
-  var x1 = parseInt(xyxy[0],10);
-  var y1 = parseInt(xyxy[1],10);
-  var x2 = parseInt(xyxy[2],10);
-  var y2 = parseInt(xyxy[3],10);
+    var x1 = parseInt(xyxy[0],10);
+    var y1 = parseInt(xyxy[1],10);
+    var x2 = parseInt(xyxy[2],10);
+    var y2 = parseInt(xyxy[3],10);
 
-  with(viewctx){
-    strokeStyle = '#ce4072';
-    fillStyle = 'rgba(255,255,255,0.03)';
-    fillRect(0,0,viewCanvas.width,viewCanvas.height);
-    beginPath();
-    moveTo(x1, y1);
-    lineTo(x2, y2);
-    stroke();    
+    with(viewctx){
+      strokeStyle = '#ce4072';
+      fillStyle = 'rgba(255,255,255,0.03)';
+      fillRect(0,0,viewCanvas.width,viewCanvas.height);
+      beginPath();
+      moveTo(x1, y1);
+      lineTo(x2, y2);
+      stroke();    
+    }   
+  }
+
+  if(command == 'C'){
+    var id = rest;
+    reqwest({
+      url:'/data/' + id,
+      type:'json'
+    })
+    .then(function(resp){
+      if(!data) data = [];
+      data.push(process(resp.data));
+
+      viz();
+    })
   }
 };
 
@@ -78,7 +96,8 @@ capture.onclick = function(){
       if(x < button_size && y > b.canvas.height - button_size){
         clear();
         drawstate = 'started';
-        console.log(drawstate)
+        points = [];
+        // console.log(drawstate)
       }
       if(x > b.canvas.width - button_size && y > b.canvas.height - button_size){
         clear();
@@ -94,7 +113,7 @@ capture.onclick = function(){
         }
 
         drawstate = 'none';
-        console.log(drawstate)
+        // console.log(drawstate)
       }
     }
 
@@ -141,11 +160,14 @@ n=2;
 
 d3.json("/recent", function(error, json) {
   if (error) return console.warn(error);
-  data = json;
+  // data = json;
 
+  if(!data) data = [];
+
+  json.reverse();
   // pull out the drawings
-  data = json.map(function(item){
-    return item.data;
+  json.forEach(function(item){
+    data.push(process(item.data));
   })
 
   viz();
@@ -171,35 +193,48 @@ function process(points){
 
 }
 
-function pairs(array){
-  var paired = [];
-  for(var i = 0; i < array.length; i+=2){
-    paired.push([array[i],array[i+1]])
-  }
-  return paired;
-}
 
-
-function viz(){
-  var svg = 
+var svg = 
     d3.select('#lines').append('svg')
       .attr('width', width)
       .attr('height', height);
 
-  var line = d3.svg.line()
+var line = d3.svg.line()
     .x(function(d) { return d[0]; })
     .y(function(d) { return d[1]; })
     .interpolate('basis');
 
-  var n = data.length-1;
-  svg
+var lines = svg
     .selectAll('path')
-    .data(data.map(process))
+
+function viz(){
+  // var svg = 
+  //   d3.select('#lines').append('svg')
+  //     .attr('width', width)
+  //     .attr('height', height);
+
+  // var line = d3.svg.line()
+  //   .x(function(d) { return d[0]; })
+  //   .y(function(d) { return d[1]; })
+  //   .interpolate('basis');
+
+  if(data.length > 5){
+    data = data.splice(data.length - 5)
+  }
+
+  var n = data.length-1;
+
+  lines = lines.data(data);
+
+  lines
     .enter()
     .append("path")
     .attr("class", "line")
+
+  lines
+    // .transition()
     .attr("d", line)
-    .attr("transform", function(d,i){return "translate(" + segment_width*(n-i) + ",0)"});
+    .attr("transform", function(d,i){return "translate(" + segment_width*i + ",0)"});
 }
 
 

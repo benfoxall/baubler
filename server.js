@@ -30,20 +30,23 @@ wss.on('connection', function(ws) {
 
     ws.on('message', function(data){
       // todo - check format of message
-      redis_pub.publish('draws', data)
+      redis_pub.publish('partials', data)
     })
 
 });
 
 redis_sub.on("message", function (channel, message) {
-    console.log("client1 channel " + channel + ": ", message);
+    // console.log("client1 channel " + channel + ": ", message);
     // send out to all clients on this node
     // todo - don't echo to emitting node
+    var prefix = channel == 'completed' ? 'C' : 'P';
     for(var i in wss.clients)
-        wss.clients[i].send(message);
+      wss.clients[i].send(prefix + message);
+
 });
 
-redis_sub.subscribe("draws");
+redis_sub.subscribe("partials");
+redis_sub.subscribe("completed");
 
 // mongodb persistence
 
@@ -83,7 +86,8 @@ app.post('/', function(req,res){
         .status(400)
         .send({error:err.message})
     } else {
-      res.send({surccess:instance.id})
+      res.send({success:instance.id});
+      redis_pub.publish('completed', instance.id);
     }
   });
 });
@@ -91,13 +95,21 @@ app.post('/', function(req,res){
 app.get('/recent', function(req, res){
   Drawing
     .find({created_at:{'$ne': null }})
-    .limit(10)
+    .limit(5)
     .sort('-created_at')
     .select('data created_at')
     .exec(function(err, data){
-
       res.send(data);
-
     });
-
+})
+app.get('/data/:id', function(req, res){
+  Drawing.findById(req.params.id,'data created_at', function (err, drawing) {
+    if(err){
+      res
+        .status(400)
+        .send({error:err.message})
+    } else {
+      res.send(drawing);
+    }
+  });
 })
