@@ -3,8 +3,9 @@ var WebSocketServer = require('ws').Server
   , express = require('express')
   , app = express()
   , port = process.env.PORT || 5000
-  , redis_sub = require('redis-url').connect(process.env.REDISTOGO_URL)
-  , redis_pub = require('redis-url').connect(process.env.REDISTOGO_URL);
+  , redis_url = process.env.REDISTOGO_URL && process.env.REDISTOGO_URL.replace('redistogo', '')
+  , redis_sub = require('redis-url').connect(redis_url)
+  , redis_pub = require('redis-url').connect(redis_url);
 
 
 app.use(express.static(__dirname + '/'));
@@ -18,7 +19,7 @@ console.log('http server listening on %d', port);
 var wss = new WebSocketServer({server: server});
 console.log('websocket server created');
 wss.on('connection', function(ws) {
-  
+
     console.log('websocket connection open');
 
     ws.on('close', function() {
