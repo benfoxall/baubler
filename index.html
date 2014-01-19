@@ -5,6 +5,51 @@
       body {
         font-family: "Helvetica Neue", arial, sans-serif;
       }
+
+      #lines{
+        text-align: center
+      }
+      .line {
+        fill: none;
+        stroke: #ce4072;
+        stroke-width: 2px;
+        stroke-linejoin: round;
+      }
+      svg{
+        /*background-color:#f5f5f5;*/
+      }
+
+      #head{
+        background-color:#eee;
+        padding:0.25em 1em;
+      }
+      #head small{
+        color:#ccc;
+      }
+      body{
+        margin:0;
+      }
+      #captureArea, #viewArea{
+        text-align: center;
+      }
+      #captureArea video,#viewArea canvas{
+        margin:auto;
+      }
+      #viewArea canvas{
+         box-shadow: 0 0px 15px 0px #A29F9F; 
+      }
+
+      #hello {
+        margin:1em 0;
+      }
+
+      /* capture button */
+/*      #capture{
+        float:right;
+        font-size:.5em;
+      }
+*/
+      /* calibrate label */
       label{
         font-size: 1em;
         zoom: 1.5;
@@ -13,37 +58,38 @@
       }
 
 
-      .line {
-        fill: none;
-        stroke: #ce4072;
-        stroke-width: 2px;
-        stroke-linejoin: round;
-      }
-      svg{
-        background-color:#f5f5f5;
+      a{
+        color:#08f;
+        text-decoration: none;
       }
     </style>
+
   </head>
   <body>
-
-    <div id="viewArea">
-      <canvas id="viewCanvas" width="640" height="480" />
-    </div>
-
-
-    <button id="capture">Capture!</button>
-    <div id="captureArea" style="display:none">
-      <div id="captureWindow"></div>
-      <label>
-        <input type="checkbox" id="calibrate" checked="true"/>
-        Calibrate
-      </label>
-    </div>
-
-
-    <div id="currently"></div>
+    <h1 id="head">
+      Baubler<small>.benjaminbenben.com</small>
+    </h1>
 
     <div id="lines"></div>
+
+    <div id="hello">
+
+      <div id="viewArea">
+        <canvas id="viewCanvas" width="640" height="480" ></canvas>
+        <p>
+          This shows the lines that are currently being drawn <br />
+          add your own - <a href="#" id="capture">capture from webcam</a>
+        </p>
+      </div>
+      <div id="captureArea" style="display:none">
+        <div id="captureWindow"></div>
+        <label>
+          <input type="checkbox" id="calibrate" checked="true"/>
+          Calibrate
+        </label>
+      </div>
+
+    </div>
 
     <script type="text/javascript" src="js/bauble.js"></script>
     <script type="text/javascript" src="js/reqwest.js"></script>

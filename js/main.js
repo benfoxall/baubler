@@ -188,7 +188,7 @@ capture.onclick = function(){
 // draw the lines from the server
 
 var data, 
-width=900,
+width=700,
 height=100,
 segment_width = 100,
 segment_height = 100,
@@ -244,18 +244,9 @@ var lines = svg
     .selectAll('path')
 
 function viz(){
-  // var svg = 
-  //   d3.select('#lines').append('svg')
-  //     .attr('width', width)
-  //     .attr('height', height);
 
-  // var line = d3.svg.line()
-  //   .x(function(d) { return d[0]; })
-  //   .y(function(d) { return d[1]; })
-  //   .interpolate('basis');
-
-  if(data.length > 5){
-    data = data.splice(data.length - 5)
+  if(data.length > 7){
+    data = data.splice(data.length - 7)
   }
 
   var n = data.length-1;
