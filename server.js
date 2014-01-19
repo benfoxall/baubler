@@ -39,7 +39,7 @@ redis_sub.on("message", function (channel, message) {
     // console.log("client1 channel " + channel + ": ", message);
     // send out to all clients on this node
     // todo - don't echo to emitting node
-    var prefix = channel == 'completed' ? 'C' : 'P';
+    var prefix = channel == 'completed' ? 'C' : 'L';
     for(var i in wss.clients)
       wss.clients[i].send(prefix + message);
 
