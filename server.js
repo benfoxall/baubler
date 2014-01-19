@@ -47,7 +47,7 @@ redis_sub.subscribe("draws");
 
 // mongodb persistence
 
-var mongo_url = process.env.MONGOHQ_URL || 'mongodb://localhost/baubler';
+var mongo_url = process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || 'mongodb://localhost/baubler';
 
 mongoose.connect(mongo_url);
 
@@ -91,11 +91,8 @@ app.post('/', function(req,res){
 app.get('/recent', function(req, res){
   Drawing
     .find({created_at:{'$ne': null }})
-    // .where('name.last').equals('Ghost')
-    // .where('age').gt(17).lt(66)
-    // .where('likes').in(['vaporizing', 'talking'])
     .limit(10)
-    .sort('created_at')
+    .sort('created_at') //maybe -created_at
     .select('data created_at')
     .exec(function(err, data){
 
