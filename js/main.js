@@ -1,51 +1,78 @@
 var viewctx = viewCanvas.getContext('2d');
 
-var host = location.origin.replace(/^http/, 'ws')
-var ws = new WebSocket(host);
-ws.onmessage = function (event) {
-  var d = event.data;
-  var command = d.charAt(0);
-  var rest = d.substr(1);
+var host = location.origin.replace(/^http/, 'ws'),
+    ws, ws_connecting = true;
 
-  if(command == 'L'){
-   var xyxy = rest.split(',');
-
-    var x1 = parseInt(xyxy[0],10);
-    var y1 = parseInt(xyxy[1],10);
-    var x2 = parseInt(xyxy[2],10);
-    var y2 = parseInt(xyxy[3],10);
-
-    with(viewctx){
-      strokeStyle = '#ce4072';
-      fillStyle = 'rgba(255,255,255,0.03)';
-      fillRect(0,0,viewCanvas.width,viewCanvas.height);
-      beginPath();
-      moveTo(x1, y1);
-      lineTo(x2, y2);
-      stroke();    
-    }   
+function connect(){
+  ws = new WebSocket(host);
+  ws.onopen = function(){
+    // it's okay to try and reconnect in a second
+    setTimeout(function(){
+      ws_connecting = false;  
+    },1000);
   }
+  ws.onmessage = function (event) {
+    
+    var d = event.data;
+    var command = d.charAt(0);
+    var rest = d.substr(1);
 
-  if(command == 'C'){
-    var id = rest;
-    reqwest({
-      url:'/data/' + id,
-      type:'json'
-    })
-    .then(function(resp){
-      if(!data) data = [];
-      data.push(process(resp.data));
+    if(command == 'L'){
+     var xyxy = rest.split(',');
 
-      viz();
-    })
+      var x1 = parseInt(xyxy[0],10);
+      var y1 = parseInt(xyxy[1],10);
+      var x2 = parseInt(xyxy[2],10);
+      var y2 = parseInt(xyxy[3],10);
+
+      with(viewctx){
+        strokeStyle = '#ce4072';
+        fillStyle = 'rgba(255,255,255,0.03)';
+        fillRect(0,0,viewCanvas.width,viewCanvas.height);
+        beginPath();
+        moveTo(x1, y1);
+        lineTo(x2, y2);
+        stroke();    
+      }   
+    }
+
+    if(command == 'C'){
+      var id = rest;
+      reqwest({
+        url:'/data/' + id,
+        type:'json'
+      })
+      .then(function(resp){
+        if(!data) data = [];
+        data.push(process(resp.data));
+
+        viz();
+      })
+    }
+  };
+
+  ws.onclose = reconnect;
+  ws.onerror = reconnect;
+}
+
+
+var reconnect_timeout = 5000;
+function reconnect(){
+  if (ws.readyState === undefined || ws.readyState > 1) {
+    if(!ws_connecting){
+      setTimeout(connect, reconnect_timeout)
+      ws_connecting = true;
+      console.log("reconnecting in 5s")
+    }
   }
-};
+}
+connect();
 
 
 
 
 
-var inited;
+var inited, alerted = false;
 capture.onclick = function(){
   if(inited) return;
   inited = true;
@@ -77,9 +104,19 @@ capture.onclick = function(){
         lineTo(x,y);
         stroke();
 
-        // submit to live thing (remove if scale problems)
-        var send_data = [x,y,prior_x,prior_y].map(function(d){return parseInt(d)}).join(',')
-        ws.send(send_data);
+        try{
+          // submit to live thing (remove if scale problems)
+          var send_data = [x,y,prior_x,prior_y].map(function(d){return parseInt(d)}).join(',')
+          ws.send(send_data);  
+
+        } catch (e){
+          if(!alerted){
+            alerted = true;
+            alert("couldn't send live data (your completed line should still get sent)")
+            console.error(r)
+          }
+        }
+        
 
         if(drawstate == 'started'){
           points.push(parseInt(x,10));
@@ -113,7 +150,6 @@ capture.onclick = function(){
         }
 
         drawstate = 'none';
-        // console.log(drawstate)
       }
     }
 

@@ -71,7 +71,7 @@ app.use(express.bodyParser());
 app.post('/', function(req,res){
 
   var instance = new Drawing();
-  instance.data = req.body.data;
+  instance.data = req.body.data.slice(0,1000);// 500 points 
   instance.ip = req.ip;
   instance.visible = true;
   instance.created_at = new Date;
