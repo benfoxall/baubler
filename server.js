@@ -71,6 +71,7 @@ app.post('/', function(req,res){
   instance.data = req.body.data;
   instance.ip = req.ip;
   instance.visible = true;
+  instance.created_at = new Date;
 
   // todo/ validation
   instance.save(function (err, ok) {
@@ -86,3 +87,20 @@ app.post('/', function(req,res){
     }
   });
 });
+
+app.get('/recent', function(req, res){
+  Drawing
+    .find({created_at:{'$ne': null }})
+    // .where('name.last').equals('Ghost')
+    // .where('age').gt(17).lt(66)
+    // .where('likes').in(['vaporizing', 'talking'])
+    .limit(10)
+    .sort('created_at')
+    .select('data created_at')
+    .exec(function(err, data){
+
+      res.send(data);
+
+    });
+
+})
