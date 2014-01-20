@@ -26,9 +26,10 @@ function connect(){
       var y2 = parseInt(xyxy[3],10);
 
       with(viewctx){
-        strokeStyle = '#ce4072';
-        fillStyle = 'rgba(255,255,255,0.03)';
+        strokeStyle = '#fff';
+        fillStyle = 'rgba(0,0,0,.03)';
         fillRect(0,0,viewCanvas.width,viewCanvas.height);
+        lineWidth = 2;
         beginPath();
         moveTo(x1, y1);
         lineTo(x2, y2);
@@ -83,7 +84,6 @@ capture.onclick = function(){
 
   window.b = new Bauble({worker:'js/bauble-worker.js'})
   b.getUserMedia(function(){
-    instructions.style.display = 'none';
     calibrate_label.style.display = captureWindow.style.display = 'block';
   })
   .attachTo('#captureWindow')
