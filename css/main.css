@@ -1,0 +1,191 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background: url('../img/bg-diamond.png');
+    font-family: "Merriweather", "Helvetica Neue", arial, sans-serif;
+    font-size: 62.5%;
+    margin:0;
+}
+
+a {
+    color: #ce4072;
+    -webkit-transition: .3s all ease-out;
+    -moz-transition: .3s all ease-out;
+    -o-transition: .3s all ease-out;
+    transition: .3s all ease-out;
+}
+
+a:visited {
+    color: #ce4072;
+}
+
+.btn {
+    border: 2px solid #ce4072;
+    border-radius: 5px;
+    display: inline-block;
+    font-family: Ephesus,Helvetica,Arial,sans-serif;
+    font-weight: 400;
+    letter-spacing: .075em;
+    text-transform: uppercase;
+    line-height: 1.5;
+    margin: 0;
+    vertical-align: text-top;
+    padding: .5em 1.2em .8em;
+    text-decoration: none;
+    background: rgba(255,255,255,.5);
+}
+
+p, ul, ol {
+    font-size: 1.8em;
+    line-height: 1.6em;
+}
+
+p, li {
+    margin-bottom: .5em;
+}
+
+img {
+    border: solid 20px rgba(255,255,255,0.05);
+    box-shadow: 1px 1px 1px rgba(0,0,0,.1);
+    max-width: 100%;
+}
+
+.container {
+    margin: 0 auto;
+    max-width: 800px;
+    width: 80%;
+}
+
+#lines{
+    margin-bottom: 2em;
+    text-align: center;
+}
+
+.line {
+    fill: none;
+    stroke: #ce4072;
+    stroke-width: 2px;
+    stroke-linejoin: round;
+}
+svg{
+    /*background-color:#f5f5f5;*/
+}
+
+#head{
+    background-color: #fff;
+    font-family: "Helvetica Neue", arial, sans-serif;
+    padding: 0.25em 1em;
+}
+#head small{
+    color:#ccc;
+}
+
+#captureArea, #viewArea{
+    text-align: center;
+}
+#captureArea video,#viewArea canvas{
+    margin:auto;
+    max-width: 100%;
+}
+#viewArea {
+    position: relative;
+}
+#viewArea canvas{
+    background: #000;
+    box-shadow: 0 0px 15px 0px #A29F9F; 
+}
+
+#capture {
+    background: #E04006;
+    border: solid 15px #333;
+    bottom: 20px;
+    border-radius: 100%;
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    left: 50%;
+    margin-left: -30px;
+}
+
+    #capture:hover {
+        background: #FF4040;
+        border: solid 13px #555;
+    }
+
+#hello {
+    margin:1em 0;
+}
+
+/* Sections */
+
+.section-block {
+    padding: 2em 0;
+}
+
+.section-header {
+    font-size: 2.8em;
+    text-align: center;
+}
+
+/* Instructions */
+
+.section-instructions {
+    background: url(../img/bg-diamond-dark.png) repeat #26424f;
+    color: #fff;
+}
+
+.instructions-list {
+    color: rgba(255,255,255,.7);
+}
+
+.instructions-list img {
+    margin-bottom: 1em;
+}
+
+.instructions-list strong {
+    color: #fff;
+    font-weight: normal;
+}
+
+
+
+/* calibrate label */
+label{
+    font-size: 1em;
+    zoom: 1.5;
+    padding: 1em;
+    display: block;
+}
+
+
+a{
+    color:#08f;
+    text-decoration: none;
+}
+
+/* Footer */
+
+.page-footer {
+    background: #ce4072;
+    color: #fff;
+}
+
+.page-footer a {
+    color: rgba(255,255,255,.7);
+}
+
+.page-footer a:hover {
+    color: rgba(255,255,255,.9);
+}
+
+/* Helpers */
+
+.pull-left {
+    float: left;
+}
+
+.pull-right {
+    float: right;
+}
