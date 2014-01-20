@@ -102,6 +102,19 @@ app.get('/recent', function(req, res){
       res.send(data);
     });
 })
+
+app.get('/data/all', function(req, res){
+  Drawing
+    .find({created_at:{'$ne': null }}) 
+    // skip = page
+    .limit(35)
+    .sort('-created_at')
+    .select('data created_at')
+    .exec(function(err, data){
+      res.send(data);
+    });
+})
+
 app.get('/data/:id', function(req, res){
   Drawing.findById(req.params.id,'data created_at', function (err, drawing) {
     if(err){
