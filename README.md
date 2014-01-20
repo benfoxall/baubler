@@ -1,12 +1,18 @@
-# Node.js Websocket Test
+# Baubler
 
-A tiny demo using the [einaros/ws](http://einaros.github.io/ws/) WebSockets implementation.
+This codebase started as [heroku-examples/node-ws-test](https://github.com/heroku-examples/node-ws-test) - thanks heroku
+
 
 # Running Locally
 
+Requirements:
+
+* redis
+* mongodb
+
 ``` bash
 npm install
-foreman start
+node server.js
 ```
 
 # Running on Heroku
