@@ -7,13 +7,15 @@ segment_width = 200,
 segment_height = 150,
 n=2;
 
-d3.json("/data/all", function(error, json) {
+
+// I'm sorry if this didn't work
+d3.json("/data/all" + document.location.search, function(error, json) {
   if (error) return console.warn(error);
   // data = json;
 
   if(!data) data = [];
 
-  json.reverse();
+  // json.reverse();
   // pull out the drawings
   json.forEach(function(item){
     data.push(process(item.data));
@@ -84,6 +86,36 @@ function viz(){
     .attr("transform", function(d,i){
       var x = (i%grid_w);
       var y = (i - x) / grid_w;
-      console.log(segment_width*(i%grid_w)); return "translate(" + segment_width*x + ","+segment_height*y+")"
+      return "translate(" + segment_width*x + ","+segment_height*y+")"
     });
 }
+
+
+
+
+// pagination
+
+
+d3.json("/data/count", function(error, json) {
+  var pages = d3.select('#pages');
+
+  // whatever
+  var pageCount = Math.ceil(json.count / 35);
+  var data = [];
+  for (var i = 0; i < pageCount; i++) {
+    data.push(i+1);
+  };
+
+  console.log(data, pageCount);
+
+  pages.selectAll('a')
+    .data(data)
+    .enter()
+    .append('a')
+    .text(function(d,i){return d})
+    .attr('href', function(d,i){
+      return '?page=' + d;
+    })
+
+
+})

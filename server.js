@@ -104,14 +104,27 @@ app.get('/recent', function(req, res){
 })
 
 app.get('/data/all', function(req, res){
+  console.log(req.query)
+  var perpage = 35;
+
+  var skip = (parseInt(req.query.page || 1,10)-1) * perpage;
+
   Drawing
     .find({created_at:{'$ne': null }}) 
-    // skip = page
-    .limit(35)
-    .sort('-created_at')
+    .limit(perpage)
+    .skip(skip)
+    .sort('created_at')
     .select('data created_at')
     .exec(function(err, data){
       res.send(data);
+    });
+})
+
+app.get('/data/count', function(req, res){
+  Drawing
+    .count()
+    .exec(function(err, data){
+      res.send({count:data});
     });
 })
 
@@ -126,3 +139,5 @@ app.get('/data/:id', function(req, res){
     }
   });
 })
+
+
