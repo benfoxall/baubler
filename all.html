@@ -1,7 +1,22 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>All</title>
+  <link rel="stylesheet" href="css/main.css">
+  <title>Baubler ~ All</title>
+  <script type="text/javascript">
+      WebFontConfig = {
+        google: { families: [ 'Merriweather::latin' ] }
+      };
+      (function() {
+        var wf = document.createElement('script');
+        wf.src = ('https:' == document.location.protocol ? 'https' : 'http') +
+          '://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
+        wf.type = 'text/javascript';
+        wf.async = 'true';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(wf, s);
+      })(); 
+    </script>
   <style type="text/css">
       .line {
         fill: none;
@@ -13,13 +28,19 @@
         margin-right:.5em;
       }
   </style>
+  <meta name="viewport" content="width=device-width">
 </head>
 <body>
+    <h1 id="head">
+      <a href="index.html">Baubler<small>.benjaminbenben.com</small></a>
+    </h1>
+    <div class="container">
+      <h2 class="section-header has-link"><a href="index.html" class="btn arrow-btn arrow-btn-left">Return to draw</a><span>All Drawings</span></h2>
 
-  <div id="pages"></div>
+      <div id="pages"></div>
 
-  <div id="lines"></div>
-
+      <div id="lines"></div>
+    </div>
 
   <script type="text/javascript" src="js/reqwest.js"></script>
   <script type="text/javascript" src="js/d3.v3.js"></script>
