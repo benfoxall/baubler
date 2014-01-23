@@ -24,6 +24,7 @@ a:visited {
 .btn {
     border: 2px solid #ce4072;
     border-radius: 5px;
+    color: #ce4072;
     display: inline-block;
     font-family: Ephesus,Helvetica,Arial,sans-serif;
     font-weight: 400;
@@ -37,13 +38,69 @@ a:visited {
     background: rgba(255,255,255,.5);
 }
 
+.arrow-btn {
+    background: #ce4072;
+    color: #fff;
+    font-size: 9px;
+    padding: .4em 1.2em .4em;
+    position: relative;
+}
+
+    .arrow-btn:before {
+        border: solid transparent;
+        content: " ";
+        height: 0;
+        width: 0;
+        position: absolute;
+        pointer-events: none;
+    }
+
+    .arrow-btn:hover {
+        background: #bd3061;
+    }
+
+    .arrow-btn:visited {
+        color: #fff;
+    }
+
+        .arrow-btn-top:before {
+            bottom: 100%;
+            left: 50%;
+            border-color: rgba(194, 225, 245, 0);
+            border-bottom-color: #ce4072;
+            border-width: 5px;
+            margin-left: -5px;
+        }
+
+            .arrow-btn-top:hover:before {
+                border-bottom-color: #bd3061;
+            }
+
+        .arrow-btn-left:before {
+            right: 100%;
+            top: 50%;
+            border-color: rgba(194, 225, 245, 0);
+            border-right-color: #ce4072;
+            border-width: 7px;
+            margin-top: -7px;
+        }
+
+            .arrow-btn-left:hover:before {
+                border-right-color: #bd3061;
+            }
+
+.btn-container {
+    text-align: center;
+    width: 100%;
+}
+
 p, ul, ol {
     font-size: 1.8em;
     line-height: 1.6em;
 }
 
 p, li {
-    margin-bottom: .5em;
+    margin-bottom: 15px;
 }
 
 img {
@@ -54,13 +111,24 @@ img {
 
 .container {
     margin: 0 auto;
-    max-width: 800px;
+    max-width: 1000px;
     width: 80%;
 }
+
+    @media (max-width: 480px) {
+        .container {
+            width: 90%;
+        }
+    }
 
 #lines{
     margin-bottom: 2em;
     text-align: center;
+}
+
+#lines svg {
+    overflow-x: scroll;
+
 }
 
 .line {
@@ -78,9 +146,13 @@ svg{
     font-family: "Helvetica Neue", arial, sans-serif;
     padding: 0.25em 1em;
 }
-#head small{
+#head a {
+   color: #000;
+}
+#head a small {
     color:#ccc;
 }
+
 
 #captureArea, #viewArea{
     text-align: center;
@@ -114,42 +186,13 @@ svg{
         border: solid 13px #555;
     }
 
+.viewContainer {
+    margin-bottom: 15px;
+}
+
 #hello {
     margin:1em 0;
 }
-
-/* Sections */
-
-.section-block {
-    padding: 2em 0;
-}
-
-.section-header {
-    font-size: 2.8em;
-    text-align: center;
-}
-
-/* Instructions */
-
-.section-instructions {
-    background: url(../img/bg-diamond-dark.png) repeat #26424f;
-    color: #fff;
-}
-
-.instructions-list {
-    color: rgba(255,255,255,.7);
-}
-
-.instructions-list img {
-    margin-bottom: 1em;
-}
-
-.instructions-list strong {
-    color: #fff;
-    font-weight: normal;
-}
-
-
 
 /* calibrate label */
 label{
@@ -164,6 +207,78 @@ a{
     color:#08f;
     text-decoration: none;
 }
+
+/* Sections */
+
+.section-block {
+    padding: 2em 0;
+}
+
+.section-header {
+    font-size: 2.8em;
+    text-align: center;
+}
+
+    .section-header .btn {
+        float: left;
+        margin-right: 25px;
+    }
+
+    .section-header.has-link {
+        text-align: left;
+    }
+
+    @media (max-width: 480px) {
+        .section-header {
+            font-size: 2em;
+        }
+        .section-header .btn {
+            float: none;
+            margin:0 0 10px 0;
+        }
+        .section-header span {
+            display: block;
+        }
+    }
+
+/* Instructions */
+
+.section-instructions {
+    background: url(../img/bg-diamond-dark.png) repeat #26424f;
+    color: #fff;
+}
+
+.instructions-list {
+    color: rgba(255,255,255,.7);
+    padding-left: 10%;
+}
+
+.instructions-list img {
+    margin-bottom: 1em;
+}
+
+.instructions-list strong {
+    color: #fff;
+    font-weight: normal;
+}
+
+/* All page */
+
+#pages a {
+    border-radius: 5px;
+    border: solid 2px #ce4072;
+    color: #ce4072;
+    display: inline-block;
+    font-size: 1.6em;
+    margin: 0 .5em .5em 0;
+    padding: 5px 10px;
+}
+
+    #pages a:hover {
+        border: solid 2px #bd3061;
+        color: #bd3061;
+    }
+
 
 /* Footer */
 

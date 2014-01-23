@@ -2,6 +2,7 @@
   <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="css/main.css">
+    <title>Baubler</title>
     <script type="text/javascript">
       WebFontConfig = {
         google: { families: [ 'Merriweather::latin' ] }
@@ -15,30 +16,35 @@
         var s = document.getElementsByTagName('script')[0];
         s.parentNode.insertBefore(wf, s);
       })(); 
-  </script>
+    </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   </head>
   <body>
     <h1 id="head">
-      Baubler<small>.benjaminbenben.com</small>
+      <a href="index.html">Baubler<small>.benjaminbenben.com</small></a>
     </h1>
-
     <div id="lines"></div>
+    <div class="btn-container">
+      <a href="all.html" class="btn arrow-btn arrow-btn-top">See all drawings</a>
+    </div>
 
     <section class="section-block" id="draw">
       <div class="container">
-      <div id="viewArea">
-        <canvas id="viewCanvas" width="640" height="480" >
-        </canvas>
-        <a href="#" id="capture"></a>
+        <div class="viewContainer">
+          <div id="viewArea">
+            <canvas id="viewCanvas" width="640" height="480" >
+            </canvas>
+            <a href="#" id="capture"></a>
+          </div>
+          <div id="captureArea" style="display:none">
+            <div id="captureWindow" style="display:none"></div>
+            <label style="display:none" id="calibrate_label">
+              <input type="checkbox" id="calibrate" checked="true"/>
+              Calibrate
+            </label>
+          </div>
+        </div>
       </div>
-      <div id="captureArea" style="display:none">
-        <div id="captureWindow" style="display:none"></div>
-        <label style="display:none" id="calibrate_label">
-          <input type="checkbox" id="calibrate" checked="true"/>
-          Calibrate
-        </label>
-      </div>
-    </div>
 
     </section>
 
